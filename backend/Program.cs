@@ -51,19 +51,19 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSignalR();
+var allowedOrigins = builder.Configuration.GetValue<string>("AllowedOrigins")?.Split(',')
+                     ?? new[] { "http://localhost:5173" };
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowVite", policy =>
-    {          policy.AllowAnyOrigin()
-               //policy.WithOrigins("http://localhost:5173", "https://localhost:5173")
+    {
+        policy.WithOrigins(allowedOrigins)
               .AllowAnyHeader()
               .AllowAnyMethod()
-              .AllowCredentials(); 
+              .AllowCredentials();
     });
 });
-
-
 
 var app = builder.Build();
 
