@@ -2,8 +2,9 @@ import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { MainLayout } from './components/layout/MainLayout';
+import { AdminLayout } from './components/layout/AdminLayout';
 import { ProtectedRoute } from './components/layout/ProtectedRoute';
-import Home  from './pages/Home';
+import Home from './pages/Home';
 import Login from './pages/Login';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminMantenimiento from './pages/AdminMantenimiento';
@@ -44,6 +45,9 @@ function App() {
             <Routes>
                 <Route element={<MainLayout />}>
                     <Route path="/" element={<Home />} />
+                </Route>
+
+                <Route element={<AdminLayout />}>
                     <Route path="/login" element={<Login />} />
 
                     <Route element={<ProtectedRoute rolesPermitidos={['Administrador', 'Colaborador']} />}>
