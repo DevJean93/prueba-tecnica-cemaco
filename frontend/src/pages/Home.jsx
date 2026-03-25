@@ -2,12 +2,12 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { api } from '../config/api';
 import { ProductCard } from '../components/ui/ProductCard';
 import { useSignalR } from '../hooks/useSignalR';
-
+import { useSearchStore } from '../store/useSearchStore';
 const Home = () => {
     const [productos, setProductos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
+    const { searchTerm } = useSearchStore();
     const fetchProductosPublicos = useCallback(async () => {
         try {
             const response = await api.get('/productos/public');
@@ -29,7 +29,10 @@ const Home = () => {
         "InventarioActualizado",
         fetchProductosPublicos
     );
-
+    const productosFiltrados = productos.filter(producto =>
+        producto.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        producto.sku.toLowerCase().includes(searchTerm.toLowerCase())
+    );
     return (
         <div className="min-h-screen bg-[#f5f5f5] py-8 px-4 sm:px-6 lg:px-8">
             <div className="max-w-[1400px] mx-auto">
@@ -37,7 +40,7 @@ const Home = () => {
                 <div className="flex justify-between items-center mb-8 border-b border-gray-200 pb-4">
                     <div className="flex items-center gap-4">
                         <h1 className="text-2xl md:text-3xl font-bold text-[#0033a0]">
-                            Ollas, Sartenes y Cacerolas
+                            {searchTerm ? 'Resultados de búsqueda' : 'Ollas, Sartenes y Cacerolas'}
                         </h1>
 
                         {connectionStatus === 'Conectado' && (
@@ -59,7 +62,7 @@ const Home = () => {
                     </div>
 
                     <span className="text-gray-500 text-sm hidden md:block font-medium">
-                        {productos.length} productos disponibles
+                        {productosFiltrados.length} productos disponibles
                     </span>
                 </div>
 
@@ -75,15 +78,17 @@ const Home = () => {
                     </div>
                 )}
 
-                {!loading && !error && productos.length === 0 && (
+                {/* 4. Mensaje si la búsqueda no encuentra nada */}
+                {!loading && !error && productos.length > 0 && productosFiltrados.length === 0 && (
                     <div className="text-center py-20 bg-white rounded-lg border border-gray-200">
-                        <p className="text-gray-500 text-lg">No hay productos con inventario disponible por el momento.</p>
+                        <p className="text-gray-500 text-lg">No se encontraron productos para "{searchTerm}".</p>
                     </div>
                 )}
 
-                {!loading && !error && productos.length > 0 && (
+                {/* 5. Dibujamos el arreglo filtrado en lugar del original */}
+                {!loading && !error && productosFiltrados.length > 0 && (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-                        {productos.map((producto) => (
+                        {productosFiltrados.map((producto) => (
                             <ProductCard key={producto.id} producto={producto} />
                         ))}
                     </div>

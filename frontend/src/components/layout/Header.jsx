@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import { useCartStore } from '../../store/useCartStore';
-
+import { useSearchStore } from '../../store/useSearchStore';
 const Header = () => {
   const { cart } = useCartStore();
-
+  const { searchTerm, setSearchTerm } = useSearchStore();
   const totalItems = cart.reduce((total, item) => total + item.cantidad, 0);
 
   return (
@@ -32,7 +32,9 @@ const Header = () => {
             <div className="relative group">
               <input
                   type="search"
-                  placeholder="Buscar"
+                  placeholder="Buscar por nombre o SKU..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full bg-white text-gray-900 rounded-full py-2.5 px-6 pr-14 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-cemaco-orange transition-all"
               />
               <button className="absolute right-0 top-0 h-full px-5 text-gray-400 hover:text-cemaco-orange transition-colors cursor-pointer">
