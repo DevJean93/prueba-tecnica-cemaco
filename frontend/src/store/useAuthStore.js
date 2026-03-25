@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { secureStorage } from '../utils/secureStorage';
+import { secureStorage } from '../utils/secureStorage.js';
 
 export const useAuthStore = create(
     persist(
@@ -8,11 +8,9 @@ export const useAuthStore = create(
             token: null,
             rol: null,
             isAuthenticated: false,
-
             login: (token, rol) => {
                 set({ token, rol, isAuthenticated: true });
             },
-
             logout: () => {
                 set({ token: null, rol: null, isAuthenticated: false });
             }

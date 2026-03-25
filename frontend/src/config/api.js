@@ -1,28 +1,28 @@
 import axios from 'axios';
-import { useAuthStore } from '../store/useAuthStore';
+import { useAuthStore } from '../store/useAuthStore.js';
 
-
-let urldev ='http://localhost:5038/api';
-//let urlprod = 'http://localhost:8080/api';
 export const api = axios.create({
-    baseURL: urldev,
-    headers: {
-        'Content-Type': 'application/json'
-    }
+    baseURL: 'http://localhost:8080/api',
 });
-
 
 api.interceptors.request.use(
     (config) => {
-
         const token = useAuthStore.getState().token;
-
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
         return config;
     },
+    (error) => Promise.reject(error)
+);
+
+api.interceptors.response.use(
+    (response) => response,
     (error) => {
+        if (error.response && error.response.status === 401) {
+            useAuthStore.getState().logout();
+            window.location.href = '/login';
+        }
         return Promise.reject(error);
     }
 );
