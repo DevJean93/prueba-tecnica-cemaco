@@ -1,5 +1,6 @@
 using backend.Core.Entities;
 using backend.Core.Interfaces;
+using backend.Hubs;
 using backend.Infraestructura.Data;
 using backend.Infraestructura.Repositorios;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -49,15 +50,20 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddSignalR();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowVite", policy =>
     {          //policy.AllowAnyOrigin()
                policy.WithOrigins("http://localhost:5173", "https://localhost:5173")
               .AllowAnyHeader()
-              .AllowAnyMethod();
+              .AllowAnyMethod()
+              .AllowCredentials(); 
     });
 });
+
+
 
 var app = builder.Build();
 
@@ -94,5 +100,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<InventoryHub>("/inventoryHub");
 
 app.Run();

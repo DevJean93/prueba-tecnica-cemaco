@@ -1,24 +1,27 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
 using backend.Core.Interfaces;
 using backend.Core.Entities;
 using backend.API.DTOs;
+using backend.Hubs;
 
 namespace backend.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize] 
+[Authorize]
 public class ProductosController : ControllerBase
 {
     private readonly IProductRepository _repository;
+    private readonly IHubContext<InventoryHub> _hubContext;
 
-    public ProductosController(IProductRepository repository)
+    public ProductosController(IProductRepository repository, IHubContext<InventoryHub> hubContext)
     {
         _repository = repository;
+        _hubContext = hubContext;
     }
 
- 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ProductosDto>>> GetProductos()
     {
@@ -38,7 +41,6 @@ public class ProductosController : ControllerBase
         return Ok(productosDto);
     }
 
-    
     [AllowAnonymous]
     [HttpGet("public")]
     public async Task<ActionResult<IEnumerable<ProductosDto>>> GetPublicProductos()
@@ -58,7 +60,6 @@ public class ProductosController : ControllerBase
 
         return Ok(productosDto);
     }
-
 
     [HttpGet("{id}")]
     public async Task<ActionResult<ProductosDto>> GetProducto(int id)
@@ -106,9 +107,10 @@ public class ProductosController : ControllerBase
             Imagen = productoCreado.Imagen
         };
 
+        await _hubContext.Clients.All.SendAsync("InventarioActualizado");
+
         return CreatedAtAction(nameof(GetProducto), new { id = productoCreado.Id }, dtoCreado);
     }
-
 
     [Authorize(Roles = "Administrador, Colaborador")]
     [HttpPut("{id}")]
@@ -126,9 +128,10 @@ public class ProductosController : ControllerBase
 
         await _repository.UpdateAsync(productoExistente);
 
+        await _hubContext.Clients.All.SendAsync("InventarioActualizado");
+
         return NoContent();
     }
-
 
     [Authorize(Roles = "Administrador")]
     [HttpDelete("{id}")]
@@ -138,6 +141,8 @@ public class ProductosController : ControllerBase
         if (producto == null) return NotFound();
 
         await _repository.DeleteAsync(id);
+
+        await _hubContext.Clients.All.SendAsync("InventarioActualizado");
 
         return NoContent();
     }
