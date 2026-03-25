@@ -1,10 +1,14 @@
 import axios from 'axios';
 import { useAuthStore } from '../store/useAuthStore.js';
 
-export const api = axios.create({
-    baseURL: 'http://localhost:8080/api',
-});
 
+const backendUrl = window.location.hostname === 'localhost'
+    ? 'http://localhost:8080'
+    : `http://${window.location.hostname}:8080`;
+
+export const api = axios.create({
+    baseURL: `${backendUrl}/api`,
+});
 api.interceptors.request.use(
     (config) => {
         const token = useAuthStore.getState().token;

@@ -8,6 +8,13 @@ const Home = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const { searchTerm } = useSearchStore();
+
+    const backendUrl = window.location.hostname === 'localhost'
+        ? 'http://localhost:8080'
+        : `http://${window.location.hostname}:8080`;
+
+// 2. Usamos esa URL calculada
+
     const fetchProductosPublicos = useCallback(async () => {
         try {
             const response = await api.get('/productos/public');
@@ -25,7 +32,7 @@ const Home = () => {
     }, [fetchProductosPublicos]);
 
     const { connectionStatus } = useSignalR(
-        "http://localhost:8080/inventoryHub",
+        `${backendUrl}/inventoryHub`,
         "InventarioActualizado",
         fetchProductosPublicos
     );
