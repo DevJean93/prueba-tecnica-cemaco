@@ -8,6 +8,8 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminMantenimiento from './pages/AdminMantenimiento';
+import CartPage from './pages/CartPage';
+import { AddToCartModal } from './components/ui/AddToCartModal';
 import { useAuthStore } from './store/useAuthStore.js';
 import { secureStorage } from './utils/secureStorage.js';
 
@@ -46,6 +48,7 @@ function App() {
                 <Route element={<MainLayout />}>
                     <Route path="/" element={<Home />} />
                 </Route>
+                <Route path="/carreta" element={<CartPage />} />
 
                 <Route element={<AdminLayout />}>
                     <Route path="/login" element={<Login />} />
@@ -58,6 +61,7 @@ function App() {
 
                 <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
+            <AddToCartModal />
         </BrowserRouter>
     );
 }
