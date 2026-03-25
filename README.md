@@ -42,6 +42,7 @@ Todo el ecosistema está orquestado con Docker. No es necesario instalar SDKs de
 ### Prerrequisitos
 * [Docker Desktop](https://www.docker.com/products/docker-desktop/) o Docker Engine instalado.
 * Docker Compose.
+* Opcional Portainer para desplegar por medio de Stack
 
 ### Pasos para levantar el proyecto
 
@@ -52,20 +53,20 @@ Todo el ecosistema está orquestado con Docker. No es necesario instalar SDKs de
    docker-compose up --build -d
 
 2. 🌐 Accesos y URLs
-  Una vez que los contenedores estén corriendo, puedes acceder a los siguientes servicios:
+ * Una vez que los contenedores estén corriendo, puedes acceder a los siguientes servicios:
 
-  Frontend (Vista Publica): http://localhost:5173 
-  Frontend (Panel Administrativo): http://localhost:5173/login 
-  Backend API (Swagger): http://localhost:8080/swagger/index.html
+ * Frontend (Vista Publica): http://localhost:5173 
+ * Frontend (Panel Administrativo): http://localhost:5173/login 
+ * Backend API (Swagger): http://localhost:8080/swagger/index.html
 
 3. 🔑 Credenciales de Prueba (Data Seeding)
-  La base de datos se inicializa automáticamente con usuarios y productos de prueba.
+ * La base de datos se inicializa automáticamente con usuarios y productos de prueba.
 
-  Usuario Administrador:
-  Email: admin@cemaco.com
-  Password: Admin123!
-  Nota: Este usuario tiene acceso al panel de gestión de inventario.
+ * Usuario Administrador:
+ * Email: admin@cemaco.com
+ * Password: Admin123!
+ * Nota: Este usuario tiene acceso al panel de gestión de inventario.
 
-  Usuario Cliente (Opcional para pruebas):
-  Email: cliente@cemaco.com
-  Password: Cliente123!
+ * Usuario Cliente (Opcional para pruebas):
+ * Email: cliente@cemaco.com
+ * Password: Cliente123!
