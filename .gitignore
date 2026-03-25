@@ -1,0 +1,24 @@
+# =========================
+# Backend (.NET / C# / VS)
+# =========================
+.vs/
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+appsettings.Development.json
+
+# =========================
+# Frontend (Node.js / React / Vite)
+# =========================
+node_modules/
+dist/
+dist-ssr/
+.env
+.env.*.local
+
+# =========================
+# Archivos del Sistema Operativo
+# =========================
+.DS_Store
+Thumbs.db

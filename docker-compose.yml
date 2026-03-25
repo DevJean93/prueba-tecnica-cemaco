@@ -1,0 +1,40 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+    
+      - ConnectionStrings__DefaultConnection=Server=db;Database=CemacoTestDb;User Id=sa;Password=CemacoTest@26;TrustServerCertificate=True;
+    depends_on:
+      - db 
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - "1434:1433" 
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=CemacoTest@26
+    volumes:
+      - sql_data:/var/opt/mssql
+
+# Declaramos el volumen al final del archivo
+volumes:
+  sql_data:
