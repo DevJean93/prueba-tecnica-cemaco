@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using backend.Core.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using backend.Core.Entities;
+using System.Text.Json;
 
 namespace backend.Infraestructura.Data;
 
@@ -41,62 +42,36 @@ public static class DbSeeder
             }
 
             // --- 3. SEEDING DE PRODUCTOS ---
-            if (!await db.Productos.AnyAsync())
+            if (!db.Productos.Any())
             {
-                var productosIniciales = new List<Producto>
+                var jsonPath = Path.Combine(Directory.GetCurrentDirectory(), "Infraestructura", "Data", "productos.json");
+                if (!File.Exists(jsonPath))
                 {
-                    new Producto
-                    {
-                        Nombre = "Sartén T-fal Initiatives de 24cm",
-                        Descripcion = "Sartén antiadherente con tecnología Thermo-Spot.",
-                        Precio = 199.00m,
-                        SKU = "TFA-INT-24",
-                        Inventario = 25, 
-                        Imagen = "https://cemacogt.vtexassets.com/arquivos/ids/2918259-300-300?v=638756866203570000&width=300&height=300&aspect=true"
-                    },
-                    new Producto
-                    {
-                        Nombre = "Olla Arrocera Oster de 10 Tazas",
-                        Descripcion = "Olla con función automática para mantener el arroz caliente.",
-                        Precio = 349.00m,
-                        SKU = "OST-ARR-10T",
-                        Inventario = 12, 
-                        Imagen = "https://cemacogt.vtexassets.com/arquivos/ids/2918259-300-300?v=638756866203570000&width=300&height=300&aspect=true"
-                    },
-                    new Producto
-                    {
-                        Nombre = "Batería de Cocina Tramontina 7 Pz",
-                        Descripcion = "Juego completo de aluminio con revestimiento antiadherente.",
-                        Precio = 899.00m,
-                        SKU = "TRA-BAT-7PZ",
-                        Inventario = 8,
-                        Imagen = "https://cemacogt.vtexassets.com/arquivos/ids/2918259-300-300?v=638756866203570000&width=300&height=300&aspect=true"
-                    },
-                    new Producto
-                    {
-                        Nombre = "Sartén de Hierro Fundido Lodge 10\"",
-                        Descripcion = "Sartén pre-sazonado ideal para retener el calor.",
-                        Precio = 275.00m,
-                        SKU = "LOD-HIE-10P",
-                        Inventario = 3,
-                        Imagen = "https://cemacogt.vtexassets.com/arquivos/ids/2918259-300-300?v=638756866203570000&width=300&height=300&aspect=true"
-                    },
-                    new Producto
-                    {
-                        Nombre = "Cacerola con Tapa de Vidrio 2L",
-                        Descripcion = "Cacerola de acero inoxidable de alta calidad.",
-                        Precio = 150.00m,
-                        SKU = "GEN-CAC-2LT",
-                        Inventario = 0,
-                        Imagen = "https://cemacogt.vtexassets.com/arquivos/ids/2918259-300-300?v=638756866203570000&width=300&height=300&aspect=true"
-                    }
-                };
+                    Console.WriteLine("No se encontró el archivo productos.json en la ruta: " + jsonPath);
+                    return;
+                }
 
-                await db.Productos.AddRangeAsync(productosIniciales);
-                await db.SaveChangesAsync();
-                Console.WriteLine("Poblado de productos VTEX completado exitosamente.");
-            
-            Console.WriteLine("Seeding completado exitosamente.");
+                var jsonData = await File.ReadAllTextAsync(jsonPath);
+
+             
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
+                var productos = JsonSerializer.Deserialize<List<Producto>>(jsonData, options);
+
+                if (productos != null && productos.Any())
+                {
+                    var random = new Random();
+
+                    foreach (var prod in productos)
+                    {
+                  
+                        prod.Inventario = random.Next(0, 26);
+                    }
+
+                    await db.Productos.AddRangeAsync(productos);
+                    await db.SaveChangesAsync();
+
+                }
             }
         }
         catch (Exception ex)
