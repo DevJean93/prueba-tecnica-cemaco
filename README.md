@@ -9,6 +9,9 @@ Esta es una solución Full Stack desarrollada como prueba técnica para la posic
 **Vista Pública (Catálogo de Productos):**
 ![Vista Pública](./docs/VistaPublica.png)
 
+**Vista Pública (Carrito de Compras):**
+![Vista Pública](./docs/Carrito.png)
+
 **Inicio de Sesión (Portal de Empleados):**
 ![Login](./docs/Login.png)
 
