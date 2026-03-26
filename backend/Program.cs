@@ -1,4 +1,4 @@
-using backend.Core.Entities;
+using backend.Middlewares;
 using backend.Core.Interfaces;
 using backend.Hubs;
 using backend.Infraestructura.Data;
@@ -89,7 +89,7 @@ using (var scope = app.Services.CreateScope())
         Console.WriteLine($"Ocurrió un error al arrancar la base de datos: {ex.Message}");
     }
 }
-
+app.UseMiddleware<GlobalExceptionMiddleware>();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
