@@ -103,5 +103,5 @@ La base de datos se inicializa automáticamente con usuarios y productos de prue
 
 ### 👤 Usuario Colaborador
 *(Este usuario tiene acceso al panel de gestión de inventario)*
-* **Email:** `"colab@cemaco.com`
+* **Email:** `colab@cemaco.com`
 * **Password:** `Colab123!!`
