@@ -92,12 +92,6 @@ import { useAuthStore } from '../store/useAuthStore';
                         {loading ? 'Validando...' : 'Ingresar al sistema'}
                     </button>
                 </form>
-
-                <div className="mt-6 text-center text-xs text-gray-400">
-                    Credenciales de prueba: <br/>
-                    Admin: admin@cemaco.com / Admin123! <br/>
-                    Colaborador: colab@cemaco.com / Colab123!
-                </div>
             </div>
         </div>
     );

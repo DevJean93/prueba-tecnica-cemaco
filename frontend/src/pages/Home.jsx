@@ -47,7 +47,7 @@ const Home = () => {
                 <div className="flex justify-between items-center mb-8 border-b border-gray-200 pb-4">
                     <div className="flex items-center gap-4">
                         <h1 className="text-2xl md:text-3xl font-bold text-[#0033a0]">
-                            {searchTerm ? 'Resultados de búsqueda' : 'Ollas, Sartenes y Cacerolas'}
+                            {searchTerm ? 'Resultados de búsqueda' : 'Gabinetes de Cocina'}
                         </h1>
 
                         {connectionStatus === 'Conectado' && (
