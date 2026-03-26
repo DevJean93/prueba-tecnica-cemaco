@@ -2,6 +2,23 @@
 
 Esta es una solución Full Stack desarrollada como prueba técnica para la posición de Senior Backend Developer. La aplicación simula la experiencia de compra (e-commerce) y la gestión de inventario de Cemaco, haciendo énfasis en la **consistencia de datos, comunicación en tiempo real y despliegue agnóstico**.
 
+---
+
+## 📸 Vistas Previas
+
+**Vista Pública (Catálogo de Productos):**
+![Vista Pública](./docs/VistaPublica.png)
+
+**Inicio de Sesión (Portal de Empleados):**
+![Login](./docs/Login.png)
+
+**Dashboard / Panel Administrativo:**
+![Panel Administrativo](./docs/PanelAdministrativo.png)
+
+**Gestión y Mantenimiento de Inventario:**
+![Mantenimiento](./docs/Mantenimiento.png)
+
+---
 
 ## 🚀 Arquitectura y Tecnologías
 
