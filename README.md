@@ -101,7 +101,7 @@ La base de datos se inicializa automáticamente con usuarios y productos de prue
 * **Email:** `admin@cemaco.com`
 * **Password:** `Admin123!`
 
-### 👤 Usuario Cliente
-*(Opcional para pruebas)*
-* **Email:** `cliente@cemaco.com`
-* **Password:** `Cliente123!`
+### 👤 Usuario Colaborador
+*(Este usuario tiene acceso al panel de gestión de inventario)*
+* **Email:** `"colab@cemaco.com`
+* **Password:** `Colab123!!`
